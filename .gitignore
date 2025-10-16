@@ -1,0 +1,22 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment files
+.env
+backend/.env
+
+# DFD generated images
+backend/dfds/
+
+# Node modules (frontend)
+final-front/node_modules/
+final-front/dist/
+final-front/build/
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db

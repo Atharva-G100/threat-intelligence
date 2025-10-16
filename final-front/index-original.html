@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>STRIDE Threat Analysis</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Feather Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/feather-icons@4.29.0/dist/feather.css">
+    
+
+    
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+
+    <!-- Animated Background Layers -->
+    <div class="bg-layer starfield" aria-hidden="true"></div>
+    <div class="bg-layer grid-overlay" aria-hidden="true"></div>
+    <div class="bg-layer node-network" aria-hidden="true">
+        <svg class="network-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+            <!-- Animated nodes and connections -->
+            <g class="nodes">
+                <circle class="node node-1" cx="200" cy="150" r="4"/>
+                <circle class="node node-2" cx="400" cy="200" r="3"/>
+                <circle class="node node-3" cx="600" cy="100" r="5"/>
+                <circle class="node node-4" cx="800" cy="180" r="3"/>
+                <circle class="node node-5" cx="1000" cy="120" r="4"/>
+                <circle class="node node-6" cx="300" cy="400" r="3"/>
+                <circle class="node node-7" cx="700" cy="350" r="4"/>
+                <circle class="node node-8" cx="900" cy="450" r="3"/>
+            </g>
+            <g class="connections">
+                <line class="connection" x1="200" y1="150" x2="400" y2="200"/>
+                <line class="connection" x1="400" y1="200" x2="600" y2="100"/>
+                <line class="connection" x1="600" y1="100" x2="800" y2="180"/>
+                <line class="connection" x1="800" y1="180" x2="1000" y2="120"/>
+                <line class="connection" x1="300" y1="400" x2="700" y2="350"/>
+                <line class="connection" x1="700" y1="350" x2="900" y2="450"/>
+                <line class="connection" x1="400" y1="200" x2="300" y2="400"/>
+            </g>
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-sticky">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <svg class="logo-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                </svg>
+                <span class="logo-text">STRIDE Analyzer</span>
+            </div>
+            <div class="nav-links">
+                <a href="#analyzer" class="nav-link active">Analyzer</a>
+                <a href="#threats" class="nav-link">Threats</a>
+                <a href="#security" class="nav-link">Security</a>
+            </div>
+            <div class="nav-cta">
+                <button class="btn btn--nav">Dashboard</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section parallax">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">STRIDE Threat Analyzer</h1>
+                <p class="hero-subtitle">Advanced cybersecurity threat modeling and analysis platform</p>
+                
+                <!-- Status Strip -->
+                <div class="status-strip">
+                    <div class="status-cards">
+                        <div class="status-card">
+                            <div class="status-value">127</div>
+                            <div class="status-label">Threats Blocked</div>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-value">12ms</div>
+                            <div class="status-label">Latency</div>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-value">99.9%</div>
+                            <div class="status-label">Uptime</div>
+                        </div>
+                        <div class="status-card">
+                            <div class="status-value">Active</div>
+                            <div class="status-label">System Status</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Analyzer Section -->
+            <section class="analyzer-section" id="analyzer">
+                <div class="section-header">
+                    <h2 class="section-title">System Analysis</h2>
+                    <p class="section-subtitle">Describe your system architecture for comprehensive threat analysis</p>
+                </div>
+                
+                <div class="analyzer-card card">
+                    <div class="input-wrapper">
+                        <label for="flowInput" class="input-label">System Flow Description</label>
+                        <textarea id="flowInput" class="flow-input" placeholder="Describe your system flow here..." rows="6"></textarea>
+                    </div>
+                    <div class="analyzer-actions">
+                        <button id="analyzeBtn" class="btn btn--primary">
+                            <svg class="btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                                <path d="21 21l-4.35-4.35" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Analyze Threats
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="threats">
+                <div class="section-header">
+                    <h2 class="section-title">Threat Analysis Results</h2>
+                    <p class="section-subtitle">Identified security vulnerabilities and recommendations</p>
+                </div>
+
+                <div class="results-card card">
+                    <div class="table-wrapper">
+                        <table id="resultsTable" class="results-table">
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Threat Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Visuals Section -->
+            <section class="security-section" id="security">
+                <div class="section-header">
+                    <h2 class="section-title">Security Monitoring</h2>
+                    <p class="section-subtitle">Real-time threat detection and system integrity</p>
+                </div>
+
+                <div class="security-grid">
+                    <div class="security-card card">
+                        <div class="security-visual radar-container">
+                            <div class="radar-sweep"></div>
+                            <div class="radar-rings">
+                                <div class="radar-ring"></div>
+                                <div class="radar-ring"></div>
+                                <div class="radar-ring"></div>
+                            </div>
+                        </div>
+                        <h3 class="security-title">Threat Radar</h3>
+                        <p class="security-desc">360° monitoring</p>
+                    </div>
+
+                    <div class="security-card card">
+                        <div class="security-visual lock-container">
+                            <svg class="lock-icon" width="48" height="48" viewBox="0 0 24 24" fill="none">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="16" r="1" fill="currentColor"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <h3 class="security-title">Data Protection</h3>
+                        <p class="security-desc">End-to-end encryption</p>
+                    </div>
+
+                    <div class="security-card card">
+                        <div class="security-visual matrix-container">
+                            <div class="matrix-rain">
+                                <div class="matrix-column" style="--delay: 0s"></div>
+                                <div class="matrix-column" style="--delay: 0.5s"></div>
+                                <div class="matrix-column" style="--delay: 1s"></div>
+                                <div class="matrix-column" style="--delay: 1.5s"></div>
+                                <div class="matrix-column" style="--delay: 2s"></div>
+                            </div>
+                        </div>
+                        <h3 class="security-title">Code Analysis</h3>
+                        <p class="security-desc">Pattern recognition</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <svg class="footer-logo" width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                    <span>STRIDE Analyzer</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#" class="footer-link">Documentation</a>
+                    <a href="#" class="footer-link">Security</a>
+                    <a href="#" class="footer-link">Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="tsBg"></div>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <script src="matrix.js"></script>
+</body>
+</html>

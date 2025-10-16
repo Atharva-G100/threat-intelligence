@@ -1,0 +1,151 @@
+/* Import the existing styles and enhance for React */
+@import url('../style.css');
+
+/* Hide OS cursor everywhere (keep your reduced-motion exception if needed) */
+@media (pointer:fine){ html,body,*,*::before,*::after{ cursor:none !important; }}
+
+/* Shared base */
+.c-dot,.c-ring{
+  position:fixed; top:0; left:0;
+  /* exact same transform for both, centered on pointer */
+  transform: translate3d(var(--x, -100vw), var(--y, -100vh), 0) translate(-50%, -50%);
+  transform-origin:center center;
+  will-change:transform;
+  pointer-events:none;
+  transition:none !important;
+  z-index:10000;
+}
+
+/* Dot */
+.c-dot{
+  width:6px; height:6px; border-radius:50%;
+  background:#39FF14;
+  box-shadow:0 0 6px rgba(57,255,20,.85);
+}
+
+/* Ring */
+.c-ring{
+  width:18px; height:18px; border:2px solid #39FF14; border-radius:50%;
+  box-shadow:0 0 10px rgba(57,255,20,.6);
+  mix-blend-mode:screen;
+}
+
+body.cursor-down .c-ring{
+  transform: translate3d(var(--x, -100vw), var(--y, -100vh), 0) translate(-50%, -50%) scale(.9);
+}
+
+@media (prefers-reduced-motion:reduce){
+  html,body,*,*::before,*::after{ cursor:auto !important; }
+  .c-dot,.c-ring{ display:none !important; }
+}
+
+/* Background Grid + Network Layers */
+#gridFx, #tsBg, #tsLinks {
+  position: fixed; inset: 0; pointer-events: none;
+}
+#gridFx { z-index: 0; }
+#tsBg   { z-index: 1; }   /* binary matrix spotlight */
+#tsLinks{ z-index: 2; }
+.main-app { position: relative; z-index: 10; } /* ensure content is above */
+
+/* Matrix Spotlight Background Styles */
+#tsBg { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 0; 
+  pointer-events: none; 
+  opacity: 0.04; 
+  transition: opacity 0.35s ease;
+}
+
+#tsBg.is-active { 
+  opacity: 0.12;
+}
+
+#tsBg::after { 
+  content: ''; 
+  position: absolute; 
+  inset: 0; 
+  pointer-events: none; 
+  mix-blend-mode: screen; 
+  background: radial-gradient(
+    200px circle at var(--mx, 50%) var(--my, 50%), 
+    rgba(57, 255, 20, 0.22), 
+    rgba(57, 255, 20, 0) 60%
+  ); 
+  opacity: 0; 
+  transition: opacity 0.35s ease;
+}
+
+#tsBg.is-active::after { 
+  opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  #tsBg::after {
+    background: radial-gradient(
+      130px circle at var(--mx, 50%) var(--my, 50%), 
+      rgba(57, 255, 20, 0.18), 
+      rgba(57, 255, 20, 0) 60%
+    );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #tsBg,
+  #tsBg::after {
+    transition: none !important;
+  }
+  #tsBg::after {
+    opacity: 0 !important;
+  }
+}
+
+/* Results Table Grid Alignment */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1.7fr;
+  gap: 24px;
+  align-items: center;
+  padding: 18px 24px;
+  text-align: left;
+}
+
+.results-table thead tr,
+.results-table tbody tr {
+  display: contents;
+}
+
+.results-table th,
+.results-table td {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+}
+
+@media (max-width: 900px) {
+  .results-grid {
+    gap: 16px;
+    padding: 14px 16px;
+  }
+}
+
+/* Navigation Active States with Underline/Glow */
+.nav a.is-active,
+.nav a[aria-current="page"] {
+  color: var(--accent-primary);
+  position: relative;
+}
+
+.nav a.is-active::after,
+.nav a[aria-current="page"]::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  box-shadow: 0 0 8px var(--accent-primary);
+  opacity: 1;
+}

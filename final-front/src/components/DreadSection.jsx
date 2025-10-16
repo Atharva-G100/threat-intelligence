@@ -12,6 +12,8 @@ const DreadSection = () => {
   const [score, setScore] = useState(null)
   const [error, setError] = useState(null)
 
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
   const handleChange = (field, value) => {
     const numericValue = Number(value)
     if (numericValue >= 0 && numericValue <= 10) {
@@ -21,7 +23,7 @@ const DreadSection = () => {
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/dread', {
+      const response = await fetch(`${BASE_URL}/dread`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dreadValues),

@@ -1,5 +1,6 @@
 import os
 import uuid
+import logging
 from fastapi import FastAPI, Request, HTTPException, Response
 from fastapi.middleware.cors import CORSMiddleware
 import requests
@@ -16,6 +17,9 @@ from stride_agent import analyze_system_flow
 
 app = FastAPI()
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+
 # CORS (allow frontend to access backend)
 app.add_middleware(
     CORSMiddleware,
@@ -25,18 +29,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.get("/")
 def home():
     return {"status": "Backend running"}
-
 
 # ---------------- STRIDE ANALYSIS ----------------
 @app.post("/analyze", response_model=ThreatResponse)
 def analyze_flow(flow_request: FlowRequest):
     threats = analyze_system_flow(flow_request.flow)
     return {"threats": threats}
-
 
 # ---------------- DREAD SCORING ----------------
 @app.post("/dread", response_model=DreadResponse)
@@ -55,7 +56,6 @@ def calculate_overall_dread(dread: DreadRequest):
 
     score = round(sum(values) / 5.0, 2)
     return {"score": score}
-
 
 # ---------------- DFD GENERATION (using Kroki API + local save) ----------------
 @app.post("/generate_dfd")
@@ -101,19 +101,21 @@ async def generate_dfd(request: Request):
 
     dot += "}\n"
 
-    # Send DOT to Kroki.io for rendering
     try:
         response = requests.post(
             "https://kroki.io/graphviz/png",
             data=dot.encode("utf-8"),
-            headers={"Content-Type": "text/plain"},
+            headers={
+                "Content-Type": "text/plain",
+                "User-Agent": "ThreatIntelligenceApp/1.0"
+            },
             timeout=20
         )
+        response.raise_for_status()  # Raise error for bad HTTP status codes
     except requests.RequestException as e:
-        raise HTTPException(status_code=500, detail=f"Error connecting to Kroki.io: {str(e)}")
-
-    if response.status_code != 200:
-        raise HTTPException(status_code=500, detail=f"Kroki rendering failed: {response.status_code}")
+        error_response = getattr(e.response, 'text', str(e))
+        logging.error(f"Kroki request failed: {e} - Response: {error_response}")
+        raise HTTPException(status_code=500, detail=f"Kroki rendering failed: {error_response}")
 
     # Ensure dfds folder exists
     DFD_FOLDER = os.path.join(os.getcwd(), "dfds")
@@ -125,7 +127,7 @@ async def generate_dfd(request: Request):
     with open(file_path, "wb") as f:
         f.write(response.content)
 
-    print(f"✅ DFD saved locally at: {file_path}")
+    logging.info(f"✅ DFD saved locally at: {file_path}")
 
     # Return the PNG to frontend
     return Response(content=response.content, media_type="image/png")

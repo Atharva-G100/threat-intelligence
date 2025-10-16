@@ -9,6 +9,8 @@ const AnalyzerSection = () => {
   const [dfdImageUrl, setDfdImageUrl] = useState(null)
   const { setThreats } = useStrideStore()
 
+  const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
   const handleAnalyze = async () => {
     if (!flowInput.trim()) return
 
@@ -16,7 +18,7 @@ const AnalyzerSection = () => {
     setDfdImageUrl(null)
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/analyze', {
+      const response = await fetch(`${BASE_URL}/analyze`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ flow: flowInput }),
@@ -45,7 +47,6 @@ const AnalyzerSection = () => {
 
     let dfdPayload
     try {
-      // Expect user to paste JSON describing nodes + flows
       dfdPayload = JSON.parse(flowInput)
     } catch (err) {
       console.error("❌ Invalid JSON input for DFD:", err)
@@ -54,7 +55,7 @@ const AnalyzerSection = () => {
     }
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/generate_dfd', {
+      const response = await fetch(`${BASE_URL}/generate_dfd`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dfdPayload),

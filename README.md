@@ -1,3 +1,4 @@
+
 # STRIDE Threat Analyzer
 
 An AI-powered STRIDE threat modeling tool using **Cohere API** as the backend intelligence engine and a simple HTML/CSS/JS frontend.
@@ -86,3 +87,5 @@ Server will run at:
 ## 📜 License
 This project is for educational purposes.  
 Feel free to fork and improve it.
+
+
